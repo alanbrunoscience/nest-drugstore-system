@@ -35,7 +35,7 @@ export class CategoryService {
   }
 
   async findByName(category_name: string): Promise<Category[]> {
-    return await this.categoryRepository.find({
+    const categories = await this.categoryRepository.find({
       where: {
         category_name: ILike(`%${category_name}%`),
       },
@@ -43,6 +43,12 @@ export class CategoryService {
         products: true,
       },
     });
+
+    if (categories.length === 0) {
+      throw new HttpException('Category not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return categories;
   }
 
   async create(category: Category): Promise<Category> {

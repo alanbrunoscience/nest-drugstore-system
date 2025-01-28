@@ -21,7 +21,7 @@ export class ProductService {
   }
 
   async findById(id: number): Promise<Product> {
-    const postagem = await this.productRepository.findOne({
+    const product = await this.productRepository.findOne({
       where: {
         id,
       },
@@ -30,14 +30,14 @@ export class ProductService {
       },
     });
 
-    if (!postagem)
+    if (!product)
       throw new HttpException('Product not found!', HttpStatus.NOT_FOUND);
 
-    return postagem;
+    return product;
   }
 
   async findByProdName(prod_name: string): Promise<Product[]> {
-    return this.productRepository.find({
+    const products = await this.productRepository.find({
       where: {
         prod_name: ILike(`%${prod_name}%`),
       },
@@ -45,10 +45,16 @@ export class ProductService {
         category: true,
       },
     });
+
+    if (products.length === 0) {
+      throw new HttpException('Product name not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return products;
   }
 
   async findByGenericName(generic_name: string): Promise<Product[]> {
-    return this.productRepository.find({
+    const products = await this.productRepository.find({
       where: {
         generic_name: ILike(`%${generic_name}%`),
       },
@@ -56,10 +62,16 @@ export class ProductService {
         category: true,
       },
     });
+
+    if (products.length === 0) {
+      throw new HttpException('Generic product name not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return products;
   }
 
   async findByProdType(product_type: string): Promise<Product[]> {
-    return this.productRepository.find({
+    const products = await this.productRepository.find({
       where: {
         product_type: ILike(`%${product_type}%`),
       },
@@ -67,6 +79,12 @@ export class ProductService {
         category: true,
       },
     });
+
+    if (products.length === 0) {
+      throw new HttpException('Product type not found!', HttpStatus.NOT_FOUND);
+    }
+
+    return products;
   }
 
   async create(product: Product): Promise<Product> {
