@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -13,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     synchronize: true,
     logging: true
   }),
-  // Inserir nome da classe module de cada entidade (ex.: PostagemModule)
+  CategoryModule,
   ],
   controllers: [],
   providers: [],
