@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -36,5 +35,5 @@ export class Category {
   updated_at: Date;
 
   @OneToMany(() => Product, (product) => product.category)
-  product: Product[];
+  products: Product[];
 }

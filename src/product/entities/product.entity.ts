@@ -22,8 +22,8 @@ export class Product {
   prod_name: string;
 
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  @Column({ length: 100, nullable: true })
-  generic_name: string; // Nullable because generic names might not always be applicable.
+  @Column({ length: 100, nullable: true }) // Generic name is optional.
+  generic_name: string;
 
   @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsNotEmpty()
@@ -31,12 +31,12 @@ export class Product {
   product_type: string;
 
   @IsInt()
-  @Min(0) // Ensures the value is non-negative.
+  @Min(0) // Non-negative value for stock.
   @Column({ type: 'int', nullable: false })
   stock_quantity: number;
 
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  @Column({ type: 'text', nullable: true }) // Nullable if photo is optional.
+  @Column({ type: 'text', nullable: true }) // Photo is optional.
   photo: string;
 
   @IsNumber({ maxDecimalPlaces: 2 })
@@ -50,13 +50,13 @@ export class Product {
   })
   price: number;
 
-  @ManyToOne(() => Category, (category) => category.product, {
+  @ManyToOne(() => Category, (category) => category.products, {
     onDelete: 'CASCADE',
-    eager: true, // Automatically load the category when a product is queried.
+    eager: true, // Load the category automatically with the product.
   })
   category: Category;
 
-  @Column({ type: 'date', nullable: true }) // Manually set expiration dates.
+  @Column({ type: 'date', nullable: true }) // Optional expiration date.
   expiration_date: Date;
 
   @CreateDateColumn()
