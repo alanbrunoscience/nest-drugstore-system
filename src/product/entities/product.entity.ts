@@ -52,7 +52,7 @@ export class Product {
 
   @ManyToOne(() => Category, (category) => category.products, {
     onDelete: 'CASCADE',
-    eager: true, // Load the category automatically with the product.
+    // eager: true, // Load the category automatically with the product.
   })
   category: Category;
 
